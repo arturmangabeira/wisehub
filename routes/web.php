@@ -36,18 +36,13 @@ Route::group(['middleware'=>'auth'], function(){
         }
     
         Route::get('listar-usuario','Candidate@listarUsuario');
-    //Rotas para gestao das vagas    
-    Route::get('/empresa/vagas/{id}',['as'=> 'auth.empresa','uses'=>'Auth\Empresa\EmpresaController@index']);
-    Route::get('/empresa/vaga/criar',['as'=> 'auth.empresa.criar','uses'=>'Auth\Empresa\EmpresaController@criar']);
-    Route::post('/empresa/vaga/salvar',['as'=> 'auth.empresa.salvar','uses'=>'Auth\Empresa\EmpresaController@salvar']);
-    Route::get('/empresa/vaga/editar/{id}',['as'=> 'auth.empresa.editar','uses'=>'Auth\Empresa\EmpresaController@editarvaga']);
-    Route::put('/empresa/vaga/atualizar/{id}',['as'=> 'auth.empresa.vaga.atualizar','uses'=>'Auth\Empresa\EmpresaController@atualizarvaga']);
-    Route::get('/empresa/vaga/excluir/{id}',['as'=> 'auth.empresa.vaga.excluir','uses'=>'Auth\Empresa\EmpresaController@excluirVaga']);
+    //Rotas para gestao das vagas        
 
-    Route::get('/empresa/vaga/{id}/candidatos',['as'=> 'auth.empresa.vaga.candidatos','uses'=>'Auth\Empresa\EmpresaController@exibircandidatos']);
+    Route::get('/empresa/vaga/{vaga}/candidatos',['as'=> 'empresa.vaga.candidatos','uses'=>'CompanyController@listarcandidatos']);
+    Route::get('/empresa/vaga/listar',['as'=> 'empresa.vagas.listar','uses'=>'CompanyController@listar']);
 
-    //Rotas para o desenvolvedor
-    Route::get('/candidato/vagas',['as'=> 'auth.desenvolvedor','uses'=>'Auth\Desenvolvedor\DesenvolvedorController@index']);
+    //Rotas para o candidato
+    Route::get('/candidato/vagas',['as'=> 'candidato.vagas','uses'=>'CandidateController@vagas']);
     Route::get('/candidato/vagas/candidatar',['as'=> 'candidatar','uses'=>'CandidateController@candidatar']);
      
 

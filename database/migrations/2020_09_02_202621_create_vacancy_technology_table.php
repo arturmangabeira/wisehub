@@ -30,6 +30,6 @@ class CreateVacancyTechnologyTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vacancy_technologies');
+        Schema::dropIfExists('vacancy_technology');
     }
 }

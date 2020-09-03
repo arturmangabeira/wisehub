@@ -47,7 +47,7 @@
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Registrar') }}</a>
                                 </li>
                             @endif
                         @else
@@ -66,8 +66,11 @@
                                     <a class="dropdown-item" href="{{ route('logout') }}">
                                         {{ __('Cadastrar Vaga') }}
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}">
-                                        {{ __('Listar Vaga') }}
+                                    <a class="dropdown-item" href="{{ route('candidato.vagas') }}">
+                                        {{ __('Listar Vaga ao Candidato') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('empresa.vagas.listar') }}">
+                                        {{ __('Listar Vaga por Empresa') }}
                                     </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
