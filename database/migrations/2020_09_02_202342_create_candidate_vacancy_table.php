@@ -15,8 +15,8 @@ class CreateCandidateVacancyTable extends Migration
     {
         Schema::create('candidate_vacancy', function (Blueprint $table) {
             $table->increments('id');
-            $table->date("dtAssociation");
-            $table->decimal("wageExpectation",4,2);            
+            $table->date("dtAssociation")->nullable();
+            $table->decimal("wageExpectation",4,2)->nullable();            
             $table->integer('vacancy_id')->unsigned();
             $table->foreign('vacancy_id')->references('id')->on('vacancies')->onDelete('cascade');
             $table->integer('candidate_id')->unsigned();

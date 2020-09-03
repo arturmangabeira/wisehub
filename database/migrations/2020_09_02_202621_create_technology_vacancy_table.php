@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateVacancyTechnologyTable extends Migration
+class CreateTechnologyVacancyTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateVacancyTechnologyTable extends Migration
      */
     public function up()
     {
-        Schema::create('vacancy_technology', function (Blueprint $table) {
+        Schema::create('technology_vacancy', function (Blueprint $table) {
             $table->increments('id');                 
             $table->integer('vacancy_id')->unsigned();
             $table->foreign('vacancy_id')->references('id')->on('vacancies')->onDelete('cascade');

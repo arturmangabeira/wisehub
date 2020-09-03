@@ -20,7 +20,7 @@ class CreateCandidatesTable extends Migration
             $table->string("city", 50)->nullable();
             $table->string("uf",2)->nullable();
             $table->integer("age")->nullable();
-            $table->string("dsFormation", 200);
+            $table->string("dsFormation", 200)->nullable();
             $table->integer('user_id')->unsigned();            
             $table->foreign('user_id')
                     ->unsigned()
