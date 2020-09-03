@@ -16,7 +16,8 @@ class CreateVacanciesTable extends Migration
         Schema::create('vacancies', function (Blueprint $table) {
             $table->increments('id');
             $table->string("dsVacancy",45);
-            $table->integer("qtVacancy");            
+            $table->integer("qtVacancy");
+            $table->string("dsImagem",100);            
             $table->integer('company_id')->unsigned();            
             $table->foreign('company_id')
                     ->unsigned()

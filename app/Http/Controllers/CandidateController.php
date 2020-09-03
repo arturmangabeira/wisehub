@@ -34,10 +34,13 @@ class CandidateController extends Controller
         //DB::enableQueryLog();
         $candidate = Candidate::where("user_id",Auth::User()->id)->first();
         
-        $technologys  =  $candidate->technologies;      
+        
         $arrayTechs = [];
+        if($candidate){
+        $technologys  =  $candidate->technologies;      
         foreach ($technologys as $techs) {
             $arrayTechs[] = $techs->id;
+        }
         }
         //dd($arrayTechs);
         $vacancies = Vacancy::select("vacancies.*")->distinct()

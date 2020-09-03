@@ -32,11 +32,13 @@ class HomeController extends Controller
         $company = new Company();
         //DB::enableQueryLog();
         $candidate = Candidate::where("user_id",Auth::User()->id)->first();
-        
-        $technologys  =  $candidate->technologies;      
         $arrayTechs = [];
-        foreach ($technologys as $techs) {
-            $arrayTechs[] = $techs->id;
+        if($candidate){
+            $technologys  =  $candidate->technologies;      
+        
+            foreach ($technologys as $techs) {
+                $arrayTechs[] = $techs->id;
+            }
         }
         //dd($arrayTechs);
         $vacancies = Vacancy::select("vacancies.*")->distinct()
