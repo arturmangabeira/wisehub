@@ -7,6 +7,7 @@ use App\Company;
 use App\Vacancy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CompanyController extends Controller
 {
@@ -36,7 +37,7 @@ class CompanyController extends Controller
         //dd($arrayTechs);
         $vacancies = Vacancy::select("vacancies.*")->distinct()
                             ->join("companies","vacancies.company_id","companies.id")
-                            ->join("technology_vacancy","technology_vacancy.vacancy_id","vacancies.id")                            
+                            ->leftjoin("technology_vacancy","technology_vacancy.vacancy_id","vacancies.id")                            
                             //->whereIn("technology_vacancy.technology_id",$arrayTechs)
                             ->get();
          // Enable query log

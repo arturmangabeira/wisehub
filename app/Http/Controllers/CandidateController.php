@@ -45,7 +45,7 @@ class CandidateController extends Controller
         //dd($arrayTechs);
         $vacancies = Vacancy::select("vacancies.*")->distinct()
                             ->join("companies","vacancies.company_id","companies.id")
-                            ->join("technology_vacancy","technology_vacancy.vacancy_id","vacancies.id")                            
+                            ->leftjoin("technology_vacancy","technology_vacancy.vacancy_id","vacancies.id")                            
                             ->whereIn("technology_vacancy.technology_id",$arrayTechs)
                             ->get();
          // Enable query log
