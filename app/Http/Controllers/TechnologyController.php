@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class TechnologyController extends Controller
 {
+    private $technology;
+    public function __construct(Technology $technology){
+        $this->technology = $technology;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +18,11 @@ class TechnologyController extends Controller
      */
     public function index()
     {
-        //
+        $technology = new Technology();
+
+        $technologies = $technology::all();
+        
+        return view("technology.listarTechnologia",["technologies"  => $technologies]);
     }
 
     /**
@@ -24,7 +32,7 @@ class TechnologyController extends Controller
      */
     public function create()
     {
-        //
+        return view("technology.registrarTechnologia");
     }
 
     /**
@@ -35,7 +43,34 @@ class TechnologyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = validator($request->all(), $this->technology->rules, $this->technology->messages);
+        if($validate->fails()){
+            return redirect()
+            ->route('technologia.registrar')
+            ->withErrors($validate)
+            ->withInput();
+        }
+        //dd($request);        
+
+        $technology = new Technology();
+
+        $technology->dsTechnology = $request["dsTechnology"];
+        
+        if($request->hasFile('dsImage'))
+        {
+            $dsImage = $request->file('dsImage');
+
+            $nome = uniqid() . '.' . $dsImage->getClientOriginalExtension();
+       
+            $destinationPath = 'img/technologias';       
+       
+            $dsImage->move($destinationPath, $nome);
+            $technology->dsImage = $destinationPath."/".$nome; 
+        }
+
+        $technology->save();        
+
+        return redirect()->route('technologia.listar');
     }
 
     /**

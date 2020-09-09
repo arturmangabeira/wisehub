@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
+use App\Technology;
 use App\Vacancy;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VacancyController extends Controller
 {
+    private $vacancy;
+    public function __construct(Vacancy $vacancy){
+        $this->vacancy = $vacancy;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -22,9 +29,12 @@ class VacancyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create(Company $company)
+    {        
+        $technology = new Technology();
+        $techonolias = $technology::all();
+
+        return view("vacancy.registrarVaga",["technologias" => $techonolias, "company" => $company]);
     }
 
     /**
@@ -35,7 +45,37 @@ class VacancyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = validator($request->all(), $this->vacancy->rules, $this->vacancy->messages);
+        if($validate->fails()){
+            return redirect()
+            ->route('vaga.registrar',$request["company_id"])
+            ->withErrors($validate)
+            ->withInput();
+        }
+        //dd($request);        
+
+        $vacancy = new Vacancy();
+
+        $vacancy->dsVacancy = $request["dsVacancy"];
+        $vacancy->qtVacancy = $request["qtVacancy"];
+        $vacancy->company_id = $request["company_id"];
+
+        if($request->hasFile('dsImagem'))
+        {
+            $dsImagem = $request->file('dsImagem');
+
+            $nome = uniqid() . '.' . $dsImagem->getClientOriginalExtension();
+       
+            $destinationPath = 'img/vagas';       
+       
+            $dsImagem->move($destinationPath, $nome);
+            $vacancy->dsImagem = $destinationPath."/".$nome; 
+        }
+
+        $vacancy->save();
+        $vacancy->technologies()->attach($request['technologies']);
+
+        return redirect()->route('empresa.listar');
     }
 
     /**

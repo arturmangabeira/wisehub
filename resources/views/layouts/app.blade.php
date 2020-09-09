@@ -57,15 +57,15 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">                                    
+                                    <a class="dropdown-item" href="{{ route('empresa.listar') }}">
+                                        {{ __('Listar Empresas') }}
+                                    </a>                                    
                                     <a class="dropdown-item" href="{{ route('logout') }}">
-                                        {{ __('Cadastrar Empresa') }}
+                                        {{ __('Listar Candidatos') }}
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}">
-                                        {{ __('Cadastrar Candidato') }}
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}">
-                                        {{ __('Cadastrar Vaga') }}
-                                    </a>
+                                    <a class="dropdown-item" href="{{ route('technologia.listar') }}">
+                                        {{ __('Listar Technologias') }}
+                                    </a>                                    
                                     <a class="dropdown-item" href="{{ route('candidato.vagas') }}">
                                         {{ __('Listar Vaga ao Candidato') }}
                                     </a>
