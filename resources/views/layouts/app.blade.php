@@ -60,7 +60,7 @@
                                     <a class="dropdown-item" href="{{ route('empresa.listar') }}">
                                         {{ __('Listar Empresas') }}
                                     </a>                                    
-                                    <a class="dropdown-item" href="{{ route('logout') }}">
+                                    <a class="dropdown-item" href="{{ route('candidato.listar') }}">
                                         {{ __('Listar Candidatos') }}
                                     </a>
                                     <a class="dropdown-item" href="{{ route('technologia.listar') }}">

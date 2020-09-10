@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Candidate;
 use App\Company;
+use App\Technology;
 use App\Vacancy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CandidateController extends Controller
 {
+    private $candidate;
+    public function __construct(Candidate $candidate){
+        $this->candidate = $candidate;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +22,10 @@ class CandidateController extends Controller
      */
     public function index()
     {
-        //
+        $candidate = new Candidate();
+
+        $candidates = $candidate::all();
+        return view("candidate.listarCandidato",["candidates" => $candidates]);
     }
 
     public function candidatar(Request $request)
@@ -76,7 +84,9 @@ class CandidateController extends Controller
      */
     public function create()
     {
-        //
+        $technology = new Technology();
+        $techonolias = $technology::all();
+        return view("candidate.registrarCandidato",["technologias" => $techonolias]);
     }
 
     /**
@@ -87,7 +97,52 @@ class CandidateController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = validator($request->all(), $this->candidate->rules, $this->candidate->messages);
+        if($validate->fails()){
+            return redirect()
+            ->route('candidato.registrar')
+            ->withErrors($validate)
+            ->withInput();
+        }
+        //dd($request);
+        $userId = Auth::user()->id;
+
+        $candidate = new Candidate();
+
+        $candidate->dsFormation = $request["dsFormation"];
+
+        $candidate->cpf = $request["cpf"];
+        $candidate->city = $request["city"];
+        $candidate->uf = $request["uf"];
+        $candidate->age = $request["age"];
+        $candidate->user_id = $userId;
+
+        if($request->hasFile('dsImagem'))
+        {
+            $dsImagem = $request->file('dsImagem');
+
+            $nome = uniqid() . '.' . $dsImagem->getClientOriginalExtension();
+       
+            $destinationPath = 'img/candidatos';
+       
+            /*$resize = Image::make($dsImagem->getRealPath());
+       
+            $resize->resize(120, 120, function($constraint){
+             $constraint->aspectRatio();
+            })->save($destinationPath . '/' . $nome);       
+            */
+       
+            $dsImagem->move($destinationPath, $nome);
+            $candidate->dsImagem = $destinationPath."/".$nome; 
+        }
+
+        $candidate->save();
+        if(isset($request['technologies']))
+        {
+            $candidate->technologies()->attach($request['technologies']);
+        }
+
+        return  redirect()->route('candidato.listar');
     }
 
     /**
@@ -107,9 +162,19 @@ class CandidateController extends Controller
      * @param  \App\Candidate  $candidate
      * @return \Illuminate\Http\Response
      */
-    public function edit(Candidate $candidate)
+    public function edit(Candidate $candidato)
     {
-        //
+        $technology = new Technology();
+        $techonolias = $technology::all();
+
+        $tecnologiasCandidate = $candidato->technologies;
+        $arrTecnologiasCandidate = [];
+        
+        foreach ($tecnologiasCandidate as $tech){
+            $arrTecnologiasCandidate[] = $tech->id;
+        }
+        //dd($candidato);
+        return view("candidate.editarCandidato",["arrTecnologiasCandidate" => $arrTecnologiasCandidate, "candidate" => $candidato,"technologias" => $techonolias]);
     }
 
     /**
@@ -121,7 +186,50 @@ class CandidateController extends Controller
      */
     public function update(Request $request, Candidate $candidate)
     {
-        //
+        $validate = validator($request->all(), $this->candidate->rules, $this->candidate->messages);
+        if($validate->fails()){
+            return redirect()
+            ->route('candidato.registrar')
+            ->withErrors($validate)
+            ->withInput();
+        }
+        //dd($request);
+        $userId = Auth::user()->id;
+
+        $candidate->dsFormation = $request["dsFormation"];
+
+        $candidate->cpf = $request["cpf"];
+        $candidate->city = $request["city"];
+        $candidate->uf = $request["uf"];
+        $candidate->age = $request["age"];
+        $candidate->user_id = $userId;
+
+        if($request->hasFile('dsImagem'))
+        {
+            $dsImagem = $request->file('dsImagem');
+
+            $nome = uniqid() . '.' . $dsImagem->getClientOriginalExtension();
+       
+            $destinationPath = 'img/candidatos';
+       
+            /*$resize = Image::make($dsImagem->getRealPath());
+       
+            $resize->resize(120, 120, function($constraint){
+             $constraint->aspectRatio();
+            })->save($destinationPath . '/' . $nome);       
+            */
+       
+            $dsImagem->move($destinationPath, $nome);
+            $candidate->dsImagem = $destinationPath."/".$nome; 
+        }
+
+        $candidate->save();
+        if(isset($request['technologies']))
+        {
+            $candidate->technologies()->sync($request['technologies']);
+        }
+
+        return  redirect()->route('candidato.listar');
     }
 
     /**

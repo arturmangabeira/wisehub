@@ -84,7 +84,7 @@
                     },
                     success: function (data) {
                         console.log("Retorno => ",data);
-                        botao.html("Tudo ok !");
+                        botao.html("Sucesso !");
                     }
                 });
             });

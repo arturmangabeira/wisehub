@@ -73,7 +73,10 @@ class VacancyController extends Controller
         }
 
         $vacancy->save();
-        $vacancy->technologies()->attach($request['technologies']);
+        if(isset($request['technologies']))
+        {
+            $vacancy->technologies()->attach($request['technologies']);
+        }
 
         return redirect()->route('empresa.listar');
     }

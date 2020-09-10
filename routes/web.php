@@ -48,6 +48,11 @@ Route::group(['middleware'=>'auth'], function(){
     //Rotas para o candidato
     Route::get('/candidato/vagas',['as'=> 'candidato.vagas','uses'=>'CandidateController@vagas']);
     Route::get('/candidato/vagas/candidatar',['as'=> 'candidatar','uses'=>'CandidateController@candidatar']);
+    Route::get('/candidato/listar',['as'=> 'candidato.listar','uses'=>'CandidateController@index']);
+    Route::get('/candidato/registrar',['as'=> 'candidato.registrar','uses'=>'CandidateController@create']);
+    Route::post('/candidato/gravar',['as'=> 'candidato.gravar','uses'=>'CandidateController@store']);
+    Route::get('/candidato/editar/{candidato}',['as'=> 'candidato.editar','uses'=>'CandidateController@edit']);
+    Route::post('/candidato/atualizar/{candidate}',['as'=> 'candidato.atualizar','uses'=>'CandidateController@update']);
 
 
     Route::get('/technologia/listar',['as'=> 'technologia.listar','uses'=>'TechnologyController@index']);
