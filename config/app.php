@@ -229,4 +229,6 @@ return [
 
     ],
 
+    'teste' => ["Validato" => \Illuminate\Support\Facades\Validator::class]
+
 ];
