@@ -16,6 +16,6 @@ class Candidate extends Model
 
     public function analisar()
     {
-        return "teste";
+        return "teste20";
     }
 }
