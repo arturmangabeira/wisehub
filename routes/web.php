@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,10 +41,27 @@ Route::group(['middleware'=>'auth'], function(){
 
     Route::get('/empresa/vaga/{vaga}/candidatos',['as'=> 'empresa.vaga.candidatos','uses'=>'CompanyController@listarcandidatos']);
     Route::get('/empresa/vaga/listar',['as'=> 'empresa.vagas.listar','uses'=>'CompanyController@listar']);
+    Route::get('/empresa/listar',['as'=> 'empresa.listar','uses'=>'CompanyController@index']);
+    Route::get('/empresa/registrar',['as'=> 'empresa.registrar','uses'=>'CompanyController@create']);
+    Route::post('/empresa/gravar',['as'=> 'empresa.gravar','uses'=>'CompanyController@store']);
 
     //Rotas para o candidato
     Route::get('/candidato/vagas',['as'=> 'candidato.vagas','uses'=>'CandidateController@vagas']);
     Route::get('/candidato/vagas/candidatar',['as'=> 'candidatar','uses'=>'CandidateController@candidatar']);
+    Route::get('/candidato/listar',['as'=> 'candidato.listar','uses'=>'CandidateController@index']);
+    Route::get('/candidato/registrar',['as'=> 'candidato.registrar','uses'=>'CandidateController@create']);
+    Route::post('/candidato/gravar',['as'=> 'candidato.gravar','uses'=>'CandidateController@store']);
+    Route::get('/candidato/editar/{candidato}',['as'=> 'candidato.editar','uses'=>'CandidateController@edit']);
+    Route::post('/candidato/atualizar/{candidate}',['as'=> 'candidato.atualizar','uses'=>'CandidateController@update']);
+
+
+    Route::get('/technologia/listar',['as'=> 'technologia.listar','uses'=>'TechnologyController@index']);
+    Route::get('/technologia/registrar',['as'=> 'technologia.registrar','uses'=>'TechnologyController@create']);
+    Route::post('/technologia/gravar',['as'=> 'technologia.gravar','uses'=>'TechnologyController@store']);
+
+    Route::get('/vaga/listar',['as'=> 'vaga.listar','uses'=>'VacancyController@index']);
+    Route::get('/vaga/registrar/{company}',['as'=> 'vaga.registrar','uses'=>'VacancyController@create']);
+    Route::post('/vaga/gravar',['as'=> 'vaga.gravar','uses'=>'VacancyController@store']);
      
 
 });

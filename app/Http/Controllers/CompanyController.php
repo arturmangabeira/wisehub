@@ -5,12 +5,19 @@ namespace App\Http\Controllers;
 use App\Candidate;
 use App\Company;
 use App\Vacancy;
+use Faker\Provider\Uuid;
+use Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CompanyController extends Controller
 {
+
+    private $company;
+    public function __construct(Company $company){
+        $this->company = $company;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +25,14 @@ class CompanyController extends Controller
      */
     public function index()
     {
+
         //ARTUR TESTE GIT RESET
+
+        $company = new Company();
+
+        $companies = $company::all();
+        return view("company.listarEmpresa",["companies" => $companies]);
+
     }
 
     public function listar()
@@ -74,7 +88,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        //
+        return view("company.registrarEmpresa");
     }
 
     /**
@@ -85,7 +99,48 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = validator($request->all(), $this->company->rules, $this->company->messages);
+        if($validate->fails()){
+            return redirect()
+            ->route('empresa.registrar')
+            ->withErrors($validate)
+            ->withInput();
+        }
+        //dd($request);
+        $userId = Auth::user()->id;
+
+        $company = new Company();
+
+        $company->fantasyName = $request["fantasyName"];
+
+        $company->cnpj = $request["cnpj"];
+        $company->city = $request["city"];
+        $company->uf = $request["uf"];
+        $company->dsCompany = $request["dsCompany"];
+        $company->user_id = $userId;
+
+        if($request->hasFile('dsImagem'))
+        {
+            $dsImagem = $request->file('dsImagem');
+
+            $nome = uniqid() . '.' . $dsImagem->getClientOriginalExtension();
+       
+            $destinationPath = 'img/company';
+       
+            /*$resize = Image::make($dsImagem->getRealPath());
+       
+            $resize->resize(120, 120, function($constraint){
+             $constraint->aspectRatio();
+            })->save($destinationPath . '/' . $nome);       
+            */
+       
+            $dsImagem->move($destinationPath, $nome);
+            $company->dsImagem = $destinationPath."/".$nome; 
+        }
+
+        $company->save();
+
+        return  redirect()->route('empresa.listar');
     }
 
     /**
