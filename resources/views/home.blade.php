@@ -9,7 +9,7 @@
         <div class="col-md-12">            
     @foreach ($companies as $nome => $vagas)
     <div class="card">
-        <div class="card-header"><h3>Empresa {{$nome}} contrata Profissionais</h3></div> 
+        <div class="card-header"><h3>Empresa {{$nome}} contrata Devs</h3></div> 
         <div class="card-body">         
         @if ($vagas)
         <div class="row mb-5">            
