@@ -22,10 +22,14 @@ class CandidateController extends Controller
      */
     public function index()
     {
+
+        //ARTUR TESTE GIT APOS RESET HARD.
+
         $candidate = new Candidate();
 
         $candidates = $candidate::all();
         return view("candidate.listarCandidato",["candidates" => $candidates]);
+
     }
 
     public function candidatar(Request $request)

@@ -25,10 +25,14 @@ class CompanyController extends Controller
      */
     public function index()
     {
+
+        //ARTUR TESTE GIT RESET
+
         $company = new Company();
 
         $companies = $company::all();
         return view("company.listarEmpresa",["companies" => $companies]);
+
     }
 
     public function listar()
