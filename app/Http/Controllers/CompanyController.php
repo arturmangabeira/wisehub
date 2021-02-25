@@ -18,7 +18,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
+        //ARTUR TESTE GIT RESET
     }
 
     public function listar()

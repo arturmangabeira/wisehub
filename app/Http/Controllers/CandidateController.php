@@ -17,7 +17,7 @@ class CandidateController extends Controller
      */
     public function index()
     {
-        //
+        //ARTUR TESTE GIT APOS RESET HARD.
     }
 
     public function candidatar(Request $request)
